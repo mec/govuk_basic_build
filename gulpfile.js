@@ -6,96 +6,128 @@ const rename = require('gulp-rename');
 const mustache = require('gulp-mustache');
 const injector = require('gulp-assets-injector')();
 
-/** Gov UK Frontend toolkit */
-gulp.task('toolkit', () => {
+const tempalteContent = require('./content/content');
+
+/**  Copy the source from the modules into our project */
+/** elements */
+gulp.task('elements:copy:sass', () => {
   return gulp
-    .src('./src/sass/main.scss')
+    .src('./node_modules/govuk-elements-sass/public/sass/**/**.scss')
+    .pipe(gulp.dest('./src/sass'));
+});
+
+/** toolkit */
+gulp.task('toolkit:copy:sass', () => {
+  return gulp
+    .src('./node_modules/govuk_frontend_toolkit/stylesheets/**/**.scss')
+    .pipe(gulp.dest('./src/sass'));
+});
+
+gulp.task('toolkit:copy:scripts', () => {
+  return gulp
+    .src('./node_modules/govuk_frontend_toolkit/javascripts/**.js')
+    .pipe(gulp.dest('./src/images'));
+});
+
+gulp.task('toolkit:copy:images', () => {
+  return gulp
+    .src('./node_modules/govuk_frontend_toolkit/images/**')
+    .pipe(gulp.dest('./src/images'));
+});
+
+/* templates */
+gulp.task('template:copy:images', () => {
+  return gulp
+    .src('./node_modules/govuk-template-sass/src/images/**')
+    .pipe(gulp.dest('./src/images'));
+});
+
+gulp.task('template:copy:fonts', () => {
+  return gulp
+    .src('./node_modules/govuk-template-sass/src/fonts/**')
+    .pipe(gulp.dest('./src/fonts'));
+});
+
+gulp.task('template:copy:sass', () => {
+  return gulp
+    .src('./node_modules/govuk-template-sass/src/sass/**')
+    .pipe(gulp.dest('./src/sass'));
+});
+
+/** move our helpers into the src folder */
+gulp.task('dxw:copy:sass', () => {
+  return gulp
+    .src('./dxw-helpers/*.scss')
+    .pipe(gulp.dest('./src/sass'));
+});
+
+gulp.task('dxw:copy:sass:master',['dxw:copy:sass'], () => {
+  return gulp
+    .src('./src/sass/master.scss')
+    .pipe(rename('govuk-style.scss'))
+    .pipe(gulp.dest('./src/sass'));
+});
+
+/** build tasks */
+
+/** move all images */
+gulp.task('build:images', () => {
+  return gulp
+    .src('./src/images/**/*.*')
+    .pipe(gulp.dest('./dist/assets/images'));
+});
+
+/** compile and collect styles */
+gulp.task('build:sass', () => {
+  return gulp
+    .src('./src/sass/govuk-style.scss')
     .pipe(
-      sass({ includePaths: ['./node_modules/govuk_frontend_toolkit/stylesheets', './node_modules/govuk_template_mustache/assets/stylesheets'] }).on(
+      sass().on(
         'error',
         sass.logError
       )
     )
-    .pipe(gulp.dest('./dist/assets/stylesheets'));
+    .pipe(gulp.dest('./dist/assets/stylesheets'));   
 });
-
-gulp.task('collect', ['toolkit'], () => {
-  return gulp
-    .src('./dist/assets/stylesheets/main.css')
-    .pipe(injector.collect());
-});
-
 
 /** Gov UK Template */
-gulp.task('html', ['collect'], () => {
+gulp.task('html', ['build:collect'], () => {
   return gulp
     .src('./node_modules/govuk_template_mustache/views/layouts/govuk_template.html')
     .pipe(
-      mustache({
-        topOfPage: '<!-- topOfPage -->',
-        htmlLang: 'en',
-        assetPath: './assets/',
-        pageTitle: 'Title',
-        head: '<!-- head -->',
-        bodyClasses: 'bodyClasses',
-        bodyStart: '<!-- bodyStart -->',
-        skipLinkMessage: 'skipLinkMessage',
-        cookieMessage: '<p>GOV.UK uses cookies to make the site simpler. <a href="https://www.gov.uk/help/cookies">Find out more about cookies</a></p>',
-        headerClass: 'headerClass',
-        homepageUrl: 'https://gov.uk',
-        logoLinkTitle: 'logoLinkTitle',
-        globalHeaderText: 'GOV.UK',
-        insideHeader: '<!-- insideHeader -->',
-        propositionHeader: '<!-- propositionHeader -->',
-        afterHeader: '<!-- afterHeader -->',
-        content: '<div class="wrapper" id="wrapper"><main id="main" role="main" class="content">Content</main></div>',
-        footerTop: '<!-- footerTop -->',
-        footerSupportLinks: 'footerSupportLinks',
-        licenceMessage: '<p>All content is available under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence v3.0</a>, except where otherwise stated</p>',
-        crownCopyrightMessage: '© Crown copyright',
-        bodyEnd: '<!-- BodyEnd -->'
-      })
+      mustache(tempalteContent.content())
     )
     .pipe(rename('index.html'))
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('inject', ['html'], () => {
+gulp.task('build:inject', ['html'], () => {
   return gulp
     .src('./dist/index.html')
-    .pipe(injector.inject({link: true, filter: (htmlPath, assetPath) => true }))
+    .pipe(injector.inject({link: true, filter: () => true}))
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('fonts', () => {
+gulp.task('build:collect', ['build:sass'], () => {
   return gulp
-    .src('./node_modules/govuk_template_mustache/assets/stylesheets/fonts/**.eot')
-    .pipe(gulp.dest('./dist/assets/stylesheets/fonts'));
+    .src('./dist/assets/stylesheets/*.css')
+    .pipe(injector.collect());
 });
 
-gulp.task('css', () => {
-  return gulp
-    .src('./node_modules/govuk_template_mustache/assets/stylesheets/**.css')
-    .pipe(gulp.dest('./dist/assets/stylesheets'));
-});
+//** Tasks */
+/** copy module tasks */
+gulp.task('copy:elements', ['elements:copy:sass']);
+gulp.task('copy:toolkit', ['toolkit:copy:sass', 'toolkit:copy:scripts', 'toolkit:copy:images']);
+gulp.task('copy:template', ['template:copy:sass', 'template:copy:images', 'template:copy:fonts']);
+// copy all the static assets from the node modules
+gulp.task('source:copy', ['copy:elements', 'copy:toolkit', 'copy:template', 'toolkit:copy:images']);
+// copy and rename our additions
+gulp.task('dxw:copy', ['dxw:copy:sass:master']);
 
-gulp.task('js', () => {
-  return gulp
-    .src('./node_modules/govuk_template_mustache/assets/javascripts/**.js')
-    .pipe(gulp.dest('./dist/assets/javascripts'));
-});
+gulp.task('copy', ['dxw:copy', 'source:copy']);
 
-gulp.task('images', () => {
-  return gulp
-    .src('./node_modules/govuk_template_mustache/assets/images/**.*')
-    .pipe(gulp.dest('./dist/assets/images'));
-});
+/** build */
+gulp.task('build', ['build:sass', 'build:inject', 'build:images']);
 
-gulp.task('stylesheetImages', function() {
-  return gulp
-    .src('./node_modules/govuk_template_mustache/assets/stylesheets/images/**.*')
-    .pipe(gulp.dest('./dist/assets/stylesheets/images'));
-});
-
-//** Helpers */
-gulp.task('default', ['inject', 'images', 'stylesheetImages', 'css', 'js', 'fonts']);
+/** Default task */
+gulp.task('default', ['copy', 'build']);
