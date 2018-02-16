@@ -5,6 +5,7 @@ const sass = require('gulp-sass');
 const rename = require('gulp-rename');
 const mustache = require('gulp-mustache');
 const injector = require('gulp-assets-injector')();
+const sourcemaps = require('gulp-sourcemaps');
 
 const tempalteContent = require('./content/content');
 
@@ -81,12 +82,14 @@ gulp.task('build:images', () => {
 gulp.task('build:sass', () => {
   return gulp
     .src('./src/sass/govuk-style.scss')
+    .pipe(sourcemaps.init())
     .pipe(
       sass().on(
         'error',
         sass.logError
       )
     )
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('./dist/assets/stylesheets'));   
 });
 
@@ -114,8 +117,19 @@ gulp.task('build:collect', ['build:sass'], () => {
     .pipe(injector.collect());
 });
 
+gulp.task('build:minify', () => {
+  return gulp
+    .src('./dist/assets/stylesheets/*.css')
+    .pipe(cssnano())
+    .pipe(gulp.dest('./dist/assets/stylesheets'));
+});
+
 //** Tasks */
-/** copy module tasks */
+/** 
+ * copy module tasks
+ * 
+ * copy the assets out of the node_modules and into the src folder
+*/
 gulp.task('copy:elements', ['elements:copy:sass']);
 gulp.task('copy:toolkit', ['toolkit:copy:sass', 'toolkit:copy:scripts', 'toolkit:copy:images']);
 gulp.task('copy:template', ['template:copy:sass', 'template:copy:images', 'template:copy:fonts']);
@@ -126,7 +140,11 @@ gulp.task('dxw:copy', ['dxw:copy:sass:master']);
 
 gulp.task('copy', ['dxw:copy', 'source:copy']);
 
-/** build */
+/** 
+ * build 
+ * 
+ * compile the sass inject the css file into the html and copy the images into the dist folder
+ * */
 gulp.task('build', ['build:sass', 'build:inject', 'build:images']);
 
 /** Default task */
