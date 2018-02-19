@@ -24,8 +24,8 @@ gulp.task('toolkit:copy:sass', () => {
 
 gulp.task('toolkit:copy:scripts', () => {
   return gulp
-    .src('./node_modules/govuk_frontend_toolkit/javascripts/**.js')
-    .pipe(gulp.dest('./src/govuk/images'));
+    .src('./node_modules/govuk_frontend_toolkit/javascripts/**/*.js')
+    .pipe(gulp.dest('./src/govuk/javascripts'));
 });
 
 gulp.task('toolkit:copy:images', () => {
