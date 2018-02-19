@@ -1,0 +1,41 @@
+/*
+  You have access to the frontend toolkit in this file
+*/
+
+// Settings (variables)
+@import "../../govuk/sass/colours";                                // Colour variables
+@import "../../govuk/sass/font_stack";                             // Font family variables
+@import "../../govuk/sass/measurements";                           // Widths and gutter variables
+
+// Mixins
+@import "../../govuk/sass/conditionals";                           // Media query mixin
+@import "../../govuk/sass/device-pixels";                          // Retina image mixin
+@import "../../govuk/sass/grid_layout";                            // Basic grid layout mixin
+@import "../../govuk/sass/typography";                             // Core bold and heading mixins
+@import "../../govuk/sass/shims";                
+@import "../../govuk/sass/css3";
+// Inline block mixin, clearfix placeholder
+
+// Mixins to generate components (chunks of UI)
+@import "../../govuk/sass/design-patterns/alpha-beta";             // Only required if using _phase-banner.scss
+@import "../../govuk/sass/design-patterns/buttons";                // Only required if using _buttons.scss
+@import "../../govuk/sass/design-patterns/breadcrumbs";
+
+
+$path: "../images/";
+// Functions
+@import "../../govuk/sass/url-helpers";     
+@import "./helpers/image-url-helper"; 
+
+
+// No idea why this is called 'styleguide' but it is a dependancy for the template
+@import "../../govuk/sass/styleguide/colours";
+
+// govuk template styles
+@import "../../govuk/sass/basic";
+@import "../../govuk/sass/accessibility";
+@import "../../govuk/sass/header";
+@import "../../govuk/sass/footer";
+
+// govuk elements
+@import "../../govuk/sass/govuk-elements";
