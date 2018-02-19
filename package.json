@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "http-server ./dist -o",
+    "build": "npx gulp copy && npx gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,13 +13,11 @@
   "license": "ISC",
   "devDependencies": {
     "govuk-elements-sass": "^3.1.2",
+    "govuk-template-sass": "git+https://github.com/mec/govuk-template-sass.git",
     "govuk_frontend_toolkit": "^7.4.0",
     "govuk_template_mustache": "^0.23.0",
-    "govuk-template-sass": "git+https://github.com/mec/govuk-template-sass.git",
     "gulp": "^3.9.1",
-    "gulp-assets-injector": "^1.1.2",
     "gulp-cli": "^2.0.1",
-    "gulp-inject": "^4.3.0",
     "gulp-mustache": "^3.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
