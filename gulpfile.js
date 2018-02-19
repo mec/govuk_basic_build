@@ -5,6 +5,8 @@ const sass = require('gulp-sass');
 const rename = require('gulp-rename');
 const mustache = require('gulp-mustache');
 const sourcemaps = require('gulp-sourcemaps');
+const browserSync = require('browser-sync').create();
+
 
 /**  Copy the source from the modules into our project */
 
@@ -145,3 +147,13 @@ gulp.task('build', [
   'build:govuk:fonts',
   'build:govuk:scripts'
 ]);
+
+gulp.task('serve', ['build'], function() {
+
+  browserSync.init({
+      server: "./dist"
+  });
+
+  gulp.watch("./src/**/*.*", ['build']);
+  gulp.watch("./src/**/*.*").on('change', browserSync.reload);
+});
