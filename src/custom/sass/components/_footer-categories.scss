@@ -1,8 +1,24 @@
-/** footer categories */
+/** 
+  footer categories 
+
+  Aims to replicate the footer links on gov.uk.
+*/
 
 #footer .footer-categories {
-  h2 {
-    padding: 0 0 20px;
-    border-bottom: 1px solid #bfc1c3;
+  ul {
+    margin: 0 0 $gutter-half 0;
+    li {
+      padding: $gutter-one-third 0 0 0;
+    }
   }
+  @include media(desktop){
+    h2 {
+      padding: 0 0 20px;
+      border-bottom: 1px solid #bfc1c3;
+    }
+    ul {    
+      margin: $gutter-half 0 0 0;
+    }
+  }
+
 }

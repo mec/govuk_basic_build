@@ -1,17 +1,16 @@
 {
   "name": "govuk_basic_build",
   "version": "1.0.0",
-  "description": "A basic builder of the gov.uk frontend toolkit and template.",
+  "description": "A basic builder of the gov.uk frontend toolkit, elements and template.",
   "main": "index.js",
   "scripts": {
-    "start": "http-server ./dist -o",
-    "develop": "npx browser-sync start --server --startPath './dist/' --files 'src/**/*.*'",
+    "start": "npx gulp serve",
     "build": "npx gulp copy && npx gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": ["govuk", "frontend"],
   "author": "meyric@dxw.com",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "browser-sync": "^2.23.6",
     "govuk-elements-sass": "^3.1.2",

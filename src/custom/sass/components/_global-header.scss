@@ -1,0 +1,11 @@
+/*
+  customises the colour of the global header bar
+
+  use a custom sass variable or a govuk one from src/govuk/sass/colours
+
+  best practice is to the set the $mainstream-brand in govuk-style.scss
+  
+*/
+#global-header-bar {
+  background-color: $mainstream-brand
+}
