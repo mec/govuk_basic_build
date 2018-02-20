@@ -2,6 +2,27 @@
   You have access to the frontend toolkit in this file
 */
 
+// override the font stack, comment out font_stack below.
+//@import './font-stack';
+
+/*
+
+  Helpers
+  Helpers are added early so they are avaiable to files further down
+
+*/
+
+// the $path variable is used in the helpers so we set it here.
+$path: '../images/';
+@import '../../govuk/sass/url-helpers';
+@import './helpers/image-url-helper';
+
+/* 
+
+  Toolkit imports
+
+*/
+
 // Settings (variables)
 @import '../../govuk/sass/colours'; // Colour variables
 @import '../../govuk/sass/font_stack'; // Font family variables
@@ -14,35 +35,65 @@
 @import '../../govuk/sass/typography'; // Core bold and heading mixins
 @import '../../govuk/sass/shims';
 @import '../../govuk/sass/css3';
-// Inline block mixin, clearfix placeholder
 
-// Mixins to generate components (chunks of UI)
-@import '../../govuk/sass/design-patterns/alpha-beta'; // Only required if using _phase-banner.scss
-@import '../../govuk/sass/design-patterns/buttons'; // Only required if using _buttons.scss
-@import '../../govuk/sass/design-patterns/breadcrumbs';
+@import "../../govuk/sass/design-patterns/alpha-beta";
+@import "../../govuk/sass/design-patterns/buttons";
+@import "../../govuk/sass/design-patterns/breadcrumbs";
 
-$path: '../images/';
-// Functions
-@import '../../govuk/sass/url-helpers';
-@import './helpers/image-url-helper';
+/*
 
+  elements imports
+
+*/
+@import "../../govuk/sass/elements/helpers";                      
+@import "../../govuk/sass/elements/reset";
+
+@import "../../govuk/sass/elements/govuk-template-base";
+@import "../../govuk/sass/elements/layout";      
+
+@import "../../govuk/sass/elements/elements-typography";           // Typography
+@import "../../govuk/sass/elements/buttons";                       // Buttons
+@import "../../govuk/sass/elements/icons";                         // Icons - numbered steps, calendar, search
+@import "../../govuk/sass/elements/lists";                         // Lists - numbered, bulleted
+@import "../../govuk/sass/elements/tables";                        // Tables - regular, numeric
+@import "../../govuk/sass/elements/details";                       // Details summary
+@import "../../govuk/sass/elements/panels";                        // Panels with a left grey border
+@import "../../govuk/sass/elements/forms";                         // Form - wrappers, inputs, labels
+@import "../../govuk/sass/elements/forms/form-multiple-choice";    // Custom radio buttons and checkboxes
+@import "../../govuk/sass/elements/forms/form-date";               // Date of birth pattern
+@import "../../govuk/sass/elements/forms/form-validation";         // Errors and validation
+@import "../../govuk/sass/elements/breadcrumbs";                   // Breadcrumbs
+@import "../../govuk/sass/elements/phase-banner";                  // Alpha and beta banners and tags
+@import "../../govuk/sass/elements/components";                    // GOV.UK prefixed styles - blue highlighted box
+@import "../../govuk/sass/elements/shame";      
+
+/*
+
+govuk template styles
+
+*/
 // No idea why this is called 'styleguide' but it is a dependancy for the template
 @import '../../govuk/sass/styleguide/colours';
 
-// govuk template styles
-@import '../../govuk/sass/basic';
+//@import '../../govuk/sass/basic';
 @import '../../govuk/sass/accessibility';
 @import '../../govuk/sass/header';
 @import '../../govuk/sass/footer';
 
-// govuk elements
-@import '../../govuk/sass/govuk-elements';
+/*
 
-// custom global variabes
+  Custom 
+  Custom section. Overrides and additions are imported here.
+  Fonts can be overriden at the top of the file.
+*/
 
-//$mainstream-brand: $uk-trade-investment; // set the mainstream brand colour, use this variable in your custom components
+// set the mainstream brand colour, use this variable in your custom components 
+// to keep things consistant
+//$mainstream-brand: $uk-trade-investment; 
 
 // custom components are imported here
 @import 'components/global-header'; // changes the header bar colour to $mainstream-brand
 @import 'components/footer-categories'; // enables styles for groups of footer links
 @import 'components/footer-bar'; // adds a footer bar with the colour of $mainstream-brand
+
+

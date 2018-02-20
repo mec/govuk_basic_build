@@ -1,0 +1,19 @@
+/*
+  Define your custom font stack here
+*/
+
+$font-stack: "Comic Sans MS", "HelveticaNeue", "Helvetica Neue", "Arial", "Helvetica", sans-serif;
+
+
+// all these are the variations on the variables used to define the font-family
+$toolkit-font-stack: $font-stack;
+$toolkit-font-stack-tabular: $font-stack;
+
+$nta-light: $font-stack;
+$nta-light-tabular: $font-stack;
+
+$NTA-Light: $font-stack;
+$NTA-Light-Tabular: $font-stack;
+
+$Helvetica-Regular: $font-stack;
+$helvetica-regular: $font-stack;

@@ -25,11 +25,12 @@ npm install
 ```
 
 ## Usage
-Start a development server (Browsersync):
+Start development (Browsersync):
 
 ```
 npm start
 ```
+or 
 
 Build assets and create the dist folder:
 
